@@ -5,12 +5,15 @@ import com.example.creationalpattern.abstractfactorypattern.interfaces.Car;
 import com.example.creationalpattern.abstractfactorypattern.interfaces.CarFactory;
 import com.example.creationalpattern.factorypattern.MobileFactory;
 import com.example.creationalpattern.factorypattern.interfaces.Mobile;
+import com.example.creationalpattern.prototypepattern.Vehicle;
 import com.example.creationalpattern.singletonpattern.DoubleCheckedLockingSingleton;
 import com.example.creationalpattern.singletonpattern.EagerSingleton;
 import com.example.creationalpattern.singletonpattern.LazySingleton;
 import com.example.creationalpattern.singletonpattern.ThreadSafeSingleton;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.List;
 
 @SpringBootApplication
 public class CreationalpatternApplication {
@@ -58,7 +61,24 @@ public class CreationalpatternApplication {
 		DoubleCheckedLockingSingleton doubleCheckedLockingSingleton1 = DoubleCheckedLockingSingleton.getInstance();
 		System.out.println("DoubleCheckedLocking Instance: "+doubleCheckedLockingSingleton.hashCode()+", Instance1: "+doubleCheckedLockingSingleton1.hashCode());
 
+		//Prototype Design Pattern
+		Vehicle vehicle = new Vehicle();
+		vehicle.insertData();
 
+		try {
+			Vehicle newVehicle = (Vehicle) vehicle.clone();
+			List<String> lstVehList = newVehicle.getVehicleList();
+			lstVehList.add("Suzuki Alto TS Turbo");
+
+			System.out.println("Default List: "+vehicle.getVehicleList()+"\n New List: "+lstVehList);
+
+			newVehicle.getVehicleList().remove("Suzuki Alto");
+			System.out.println("New List: "+lstVehList);
+			System.out.println("Default List: "+vehicle.getVehicleList());
+
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
